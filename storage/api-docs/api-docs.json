@@ -1,0 +1,3381 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "RoundApp OpenApi Documentation",
+        "description": "L5 Swagger OpenApi",
+        "contact": {
+            "email": "francesco.simeoli@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0 License",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://roundapp.local/api",
+            "description": "RoundApp API Server"
+        },
+        {
+            "url": "https://roundapp.local"
+        }
+    ],
+    "paths": {
+        "/auth/password/forgot": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Password reset request",
+                "description": "Password reset request",
+                "operationId": "authPasswordForgot",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "test@roundapp.local"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "We have emailed your password reset link!"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity (invalid email | email not registered)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "json"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "The given data was invalid.",
+                                        "errors": {
+                                            "email": "We can't find a user with that email address."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Request OAuth2 token flow password",
+                "description": "Request OAuth2 token flow password",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "test@roundapp.local",
+                                    "password": "roundapptest"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "refresh_token": {
+                                            "type": "string"
+                                        },
+                                        "verified": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "token_type": "Bearer",
+                                        "expires_id": 31535999,
+                                        "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDkyNDlmMTkzOTJlY2RmZWFjOWZlN2NhMjY5NDYxNjhmNzdmZjExOGYxZjJiNmNkZGFjNTRkNjM1ODAxMmRlNWVhNGIxOTMyMDBmZDNkZTAiLCJpYXQiOjE1OTI1ODA0MDcsIm5iZiI6MTU5MjU4MDQwNywiZXhwIjoxNjI0MTE2NDA2LCJzdWIiOiIxMSIsInNjb3BlcyI6WyIqIl19.DL4Wx6oteW00Af-U5uSzdNjACNkZoYdypiXATP1YsSWA77smZnOMlRuQbg4H2TYzLH-Vw5bPB7t4Q2PBOmG7Afkm6RuKgTZMLXE2HNcaYlQRdtY_Mywcm1wJp-g6A5re-0kEQwWvhyZzlC4hnNdww-lG2ofclgn5dLV6VGZ65ARUedNYRbVNX0LAyNTUgeke4BKfpyeHMNdmAcgrpwdDgBelbvBz_fl05EmF3dFhOR55nrY6Obh2BFFX5SmiWztCIsY4blOR04JitSiLsf1aBRHE_xoAdmBAR-Kq9jDfCfx7-l3371SlUgzmwRQ1NtGfjNMgCdJe1XjNidqob-VR2hW9s29rozcnt4UUVGCHRopltYpQv7N8500PU4og7pUJ9V-VNxKxjDww3y0Bl-54yg_DRwpdrCcT-wwGdtdDn5FF041k_LrV8j8Wbap0JdeWKOCc96zZXJUpELcikFq-NAN66D5dpCt6r0RZsZAhvNaqanleDTaJzbcHZ9z",
+                                        "refresh_token": "def502006860d206e0b8f88e208d3fd9dbfd55dacad90c03f6276334642aa6213b3e3a541889583d90e301c566bc2d4e0baf5e8733e59a284bc177e2951ea2733775f64b8ecebd2277edac4fbf8e6a4872d6940a9ada4c1ff7ffece5631f3742f9a1c9368ec9d3dddf85c303e87d4143226cf094e4bca99bfb39b987e921b8674071bebd1cd23a17e8a5545ef767bcac3cb7fc3bb9fcb19c80ec8a7d19d407d42084e31d56a47a95e8c80244b7ac0e3ba7c95c35bf80230d11df45690543ca3cef315821c1c8f8fa11e4f32cf8cf6ad06b6ca9211f32873dd902c369a900ddb482cc780b1522565ddaac0ca05a7039011605276b1d64a0e34067e987e38849d109bbd660fedf12e76a03f359f3cf9e2b99b03a535209d8b60ae9ae87697407021667605b4ce0b185ed6fd7888c2d0b95e91210a8f4f16dfa2e1135ee7d3f88fc5af969ad9b3099e4e9794d9b81a60a2720582b61a17157627cfca1ebd8f7c6815ffa465dd9",
+                                        "verified": false
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        },
+                                        "error_description": {
+                                            "type": "string"
+                                        },
+                                        "hint": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "error": "invalid_grant",
+                                        "error_description": "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.",
+                                        "hint": "",
+                                        "message": "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Wrong credentials"
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User registration",
+                "description": "User registration",
+                "operationId": "authRegister",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "New User",
+                                    "email": "newuser@roundapp.local",
+                                    "password": "12345678",
+                                    "password_confirmation": "12345678"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer"
+                                        },
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "refresh_token": {
+                                            "type": "string"
+                                        },
+                                        "verified": {
+                                            "type": "false"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": true,
+                                        "message": "Registration completed. Verify your email address to activate the account.",
+                                        "token_type": "Bearer",
+                                        "expires_id": 31535999,
+                                        "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDkyNDlmMTkzOTJlY2RmZWFjOWZlN2NhMjY5NDYxNjhmNzdmZjExOGYxZjJiNmNkZGFjNTRkNjM1ODAxMmRlNWVhNGIxOTMyMDBmZDNkZTAiLCJpYXQiOjE1OTI1ODA0MDcsIm5iZiI6MTU5MjU4MDQwNywiZXhwIjoxNjI0MTE2NDA2LCJzdWIiOiIxMSIsInNjb3BlcyI6WyIqIl19.DL4Wx6oteW00Af-U5uSzdNjACNkZoYdypiXATP1YsSWA77smZnOMlRuQbg4H2TYzLH-Vw5bPB7t4Q2PBOmG7Afkm6RuKgTZMLXE2HNcaYlQRdtY_Mywcm1wJp-g6A5re-0kEQwWvhyZzlC4hnNdww-lG2ofclgn5dLV6VGZ65ARUedNYRbVNX0LAyNTUgeke4BKfpyeHMNdmAcgrpwdDgBelbvBz_fl05EmF3dFhOR55nrY6Obh2BFFX5SmiWztCIsY4blOR04JitSiLsf1aBRHE_xoAdmBAR-Kq9jDfCfx7-l3371SlUgzmwRQ1NtGfjNMgCdJe1XjNidqob-VR2hW9s29rozcnt4UUVGCHRopltYpQv7N8500PU4og7pUJ9V-VNxKxjDww3y0Bl-54yg_DRwpdrCcT-wwGdtdDn5FF041k_LrV8j8Wbap0JdeWKOCc96zZXJUpELcikFq-NAN66D5dpCt6r0RZsZAhvNaqanleDTaJzbcHZ9z",
+                                        "refresh_token": "def502006860d206e0b8f88e208d3fd9dbfd55dacad90c03f6276334642aa6213b3e3a541889583d90e301c566bc2d4e0baf5e8733e59a284bc177e2951ea2733775f64b8ecebd2277edac4fbf8e6a4872d6940a9ada4c1ff7ffece5631f3742f9a1c9368ec9d3dddf85c303e87d4143226cf094e4bca99bfb39b987e921b8674071bebd1cd23a17e8a5545ef767bcac3cb7fc3bb9fcb19c80ec8a7d19d407d42084e31d56a47a95e8c80244b7ac0e3ba7c95c35bf80230d11df45690543ca3cef315821c1c8f8fa11e4f32cf8cf6ad06b6ca9211f32873dd902c369a900ddb482cc780b1522565ddaac0ca05a7039011605276b1d64a0e34067e987e38849d109bbd660fedf12e76a03f359f3cf9e2b99b03a535209d8b60ae9ae87697407021667605b4ce0b185ed6fd7888c2d0b95e91210a8f4f16dfa2e1135ee7d3f88fc5af969ad9b3099e4e9794d9b81a60a2720582b61a17157627cfca1ebd8f7c6815ffa465dd9",
+                                        "verified": false
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "json"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": false,
+                                        "message": "Validation failed",
+                                        "errors": []
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "success": false,
+                                        "message": "The given data was invalid."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/password/reset": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Password reset",
+                "description": "Password reset",
+                "operationId": "authPasswordReset",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "token": "ce31036da62de3d297ab806cfa72c6d3a9d7215118463346a83a4d1cb5cc9c37",
+                                    "email": "test@roundapp.local",
+                                    "password": "12345678",
+                                    "password_confirmation": "12345678"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity (invalid token, invalid email, invalid password)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "example": {
+                                        "message": "The given data was invalid.",
+                                        "errors": {
+                                            "email": "We can't find a user with that email address."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/email/verify/{id}/{hash}": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User email verification",
+                "description": "User email verification",
+                "operationId": "authEmailVerify",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 34
+                        }
+                    },
+                    {
+                        "name": "hash",
+                        "in": "path",
+                        "description": "Email user hashed",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "f4d78780a2e258bb569683079bd9305dcda818ea"
+                        }
+                    },
+                    {
+                        "name": "expires",
+                        "in": "query",
+                        "description": "Url expiration time",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1592670595
+                        }
+                    },
+                    {
+                        "name": "signature",
+                        "in": "query",
+                        "description": "Url signature",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "4b4b02ed35557beb4490f794013010a4b16057585693e3bf2e684605a91dcfaf"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Invalid signature"
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/auth/email/resend": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Resend User email verification",
+                "description": "Resend User email verification",
+                "operationId": "authEmailResend",
+                "requestBody": {
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "204": {
+                        "description": "Already verified",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/campaigns": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Get Campaigns list",
+                "description": "Get Campaigns list",
+                "operationId": "indexCampaigns",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CampaignResource"
+                                            }
+                                        },
+                                        "pool": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "tags": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "producers": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "ages": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "genders": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "types": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Create Campaign",
+                "description": "Create Campaign",
+                "operationId": "storeCampaigns",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/CampaignRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/campaigns/{id}": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Get Campaign",
+                "description": "Get Campaign",
+                "operationId": "showCampaign",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Update Campaign",
+                "description": "Update Campaign",
+                "operationId": "updateCampaigns",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/CampaignRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Delete Campaign",
+                "description": "Delete Campaign",
+                "operationId": "deleteCampaigns",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/campaigns/counters": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Get Campaigns counters",
+                "description": "Get Campaigns counters",
+                "operationId": "campaignsCounters",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CampaignsCountersResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/campaigns/info": {
+            "get": {
+                "tags": [
+                    "Campaigns"
+                ],
+                "summary": "Get Campaigns info",
+                "description": "Get Campaigns info",
+                "operationId": "infoCampaigns",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CampaignInfoResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/consumers/me": {
+            "get": {
+                "tags": [
+                    "Consumers"
+                ],
+                "summary": "Get Consumer",
+                "description": "Get Consumer",
+                "operationId": "showConsumer",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Consumer"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Consumers"
+                ],
+                "summary": "Update Consumer",
+                "description": "Update Consumer",
+                "operationId": "updateConsumers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Consumer"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/producers": {
+            "get": {
+                "tags": [
+                    "Producers"
+                ],
+                "summary": "Get Producers list",
+                "description": "Get Producers list",
+                "operationId": "indexProducers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Producer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Producers"
+                ],
+                "summary": "Create Producer",
+                "description": "Create Producer",
+                "operationId": "storeProducers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producer"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/producers/{id}": {
+            "get": {
+                "tags": [
+                    "Producers"
+                ],
+                "summary": "Get Producer",
+                "description": "Get Producer",
+                "operationId": "showProducer",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producer"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Producers"
+                ],
+                "summary": "Update Producer",
+                "description": "Update Producer",
+                "operationId": "updateProducers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Producer"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Producers"
+                ],
+                "summary": "Delete Producer",
+                "description": "Delete Producer",
+                "operationId": "deleteProducers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/videos": {
+            "get": {
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "Get Videos list",
+                "description": "Get Videos list",
+                "operationId": "indexVideos",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/VideoResource"
+                                            }
+                                        },
+                                        "pool": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "tags": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "producers": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "ages": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "genders": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "types": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/videos/{id}": {
+            "get": {
+                "tags": [
+                    "Videos"
+                ],
+                "summary": "Get Video stats",
+                "description": "Get Video stats",
+                "operationId": "statsVideo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Video id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/VideoResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CampaignRequest": {
+                "description": "Request Campaign",
+                "required": [
+                    "area_id",
+                    "producer_id",
+                    "video_id",
+                    "accounting_id",
+                    "title",
+                    "description",
+                    "min_age",
+                    "max_age",
+                    "gender",
+                    "budget",
+                    "type"
+                ],
+                "properties": {
+                    "area_id": {
+                        "schema": "CampaignRequest",
+                        "description": "area_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "producer_id": {
+                        "schema": "CampaignRequest",
+                        "description": "producer_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "video_id": {
+                        "schema": "CampaignRequest",
+                        "description": "video_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "accounting_id": {
+                        "schema": "CampaignRequest",
+                        "description": "accounting_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "title": {
+                        "schema": "CampaignRequest",
+                        "description": "title",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "description": {
+                        "schema": "CampaignRequest",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "min_age": {
+                        "schema": "CampaignRequest",
+                        "description": "min_age",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "max_age": {
+                        "schema": "CampaignRequest",
+                        "description": "max_age",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "gender": {
+                        "schema": "CampaignRequest",
+                        "description": "gender",
+                        "type": "integer",
+                        "format": "smallint"
+                    },
+                    "budget": {
+                        "schema": "CampaignRequest",
+                        "description": "budget",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "type": {
+                        "schema": "CampaignRequest",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "start_date": {
+                        "schema": "CampaignRequest",
+                        "description": "start_date",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "AdvertiserResource": {
+                "description": "Entity Advertiser Resource",
+                "required": [
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "AdvertiserResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "type": {
+                        "schema": "AdvertiserResource",
+                        "description": "gender",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "schema": "AdvertiserResource",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "AdvertiserResource",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "AdvertiserResource",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "AdvertiserResource",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "AreaResource": {
+                "description": "Resource Area",
+                "required": [
+                    "id",
+                    "type",
+                    "address",
+                    "latitude",
+                    "longitude",
+                    "radius",
+                    "description",
+                    "data"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "AreaResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "type": {
+                        "schema": "AreaResource",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "address": {
+                        "schema": "AreaResource",
+                        "description": "address",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "latitude": {
+                        "schema": "AreaResource",
+                        "description": "latitude",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "longitude": {
+                        "schema": "AreaResource",
+                        "description": "longitude",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "radius": {
+                        "schema": "AreaResource",
+                        "description": "radius",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "description": {
+                        "schema": "AreaResource",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "data": {
+                        "schema": "AreaResource",
+                        "description": "data",
+                        "type": "json",
+                        "format": "json"
+                    },
+                    "created_at": {
+                        "schema": "AreaResource",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "AreaResource",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "AreaResource",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignInfoResource": {
+                "description": "Resource CampaignInfo",
+                "required": [],
+                "properties": {
+                    "tags": {
+                        "schema": "CampaignInfoResource",
+                        "description": "tags",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TagResource"
+                        }
+                    },
+                    "producers": {
+                        "schema": "CampaignInfoResource",
+                        "description": "producers",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProducerResource"
+                        }
+                    },
+                    "ages": {
+                        "schema": "CampaignInfoResource",
+                        "description": "ages",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "id",
+                                    "type": "string"
+                                },
+                                "text": {
+                                    "description": "text",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "genders": {
+                        "schema": "CampaignInfoResource",
+                        "description": "gender",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "id",
+                                    "type": "string"
+                                },
+                                "text": {
+                                    "description": "text",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "paymentTypes": {
+                        "schema": "CampaignInfoResource",
+                        "description": "paymentTypes",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "description": "id",
+                                    "type": "string"
+                                },
+                                "text": {
+                                    "description": "text",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignResource": {
+                "description": "Resource Campaign",
+                "required": [],
+                "properties": {
+                    "id": {
+                        "schema": "CampaignResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "title": {
+                        "schema": "CampaignResource",
+                        "description": "title",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "description": {
+                        "schema": "CampaignResource",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "tags": {
+                        "schema": "CampaignResource",
+                        "description": "tags",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Tag"
+                        }
+                    },
+                    "age": {
+                        "schema": "CampaignResource",
+                        "description": "age",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "gender": {
+                        "schema": "CampaignResource",
+                        "description": "gender",
+                        "type": "string",
+                        "enum": [
+                            "male",
+                            "female"
+                        ]
+                    },
+                    "area": {
+                        "schema": "CampaignResource",
+                        "description": "area",
+                        "type": "string"
+                    },
+                    "paymentType": {
+                        "schema": "CampaignResource",
+                        "description": "paymentType",
+                        "type": "string",
+                        "enum": [
+                            "one",
+                            "all",
+                            "one_a_day"
+                        ]
+                    },
+                    "people": {
+                        "schema": "CampaignResource",
+                        "description": "people",
+                        "type": "integer"
+                    },
+                    "producer": {
+                        "schema": "CampaignResource",
+                        "$ref": "#/components/schemas/ProducerResource"
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignStatsResource": {
+                "description": "Resource CampaignStats",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "CampaignStatsResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "title": {
+                        "schema": "CampaignStatsResource",
+                        "description": "title",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255
+                    },
+                    "video": {
+                        "schema": "CampaignStatsResource",
+                        "description": "File",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/Video"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignsCountersResource": {
+                "description": "Resource CampaignsCountersResource",
+                "properties": {
+                    "videos": {
+                        "schema": "CampaignsCountersResource",
+                        "description": "Class CampaignsCountersResource",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "producers": {
+                        "schema": "CampaignsCountersResource",
+                        "description": "Class CampaignsCountersResource",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "costs": {
+                        "schema": "CampaignsCountersResource",
+                        "description": "Class CampaignsCountersResource",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "views_global": {
+                        "schema": "CampaignsCountersResource",
+                        "description": "Class CampaignsCountersResource",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "views_paid": {
+                        "schema": "CampaignsCountersResource",
+                        "description": "Class CampaignsCountersResource",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "views_free": {
+                        "schema": "CampaignsCountersResource",
+                        "description": "Class CampaignsCountersResource",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "clicks": {
+                        "schema": "CampaignsCountersResource",
+                        "description": "Class CampaignsCountersResource",
+                        "type": "integer",
+                        "format": "bigint"
+                    }
+                },
+                "type": "object"
+            },
+            "FileResource": {
+                "description": "Resource File",
+                "required": [
+                    "id",
+                    "uuid",
+                    "user_id",
+                    "type",
+                    "resource",
+                    "size",
+                    "mime_type",
+                    "original_name",
+                    "name",
+                    "description",
+                    "hash_alg",
+                    "hash_file"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "FileResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "uuid": {
+                        "schema": "FileResource",
+                        "description": "uuid",
+                        "type": "string"
+                    },
+                    "url": {
+                        "schema": "FileResource",
+                        "description": "url",
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "schema": "FileResource",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "type": {
+                        "schema": "FileResource",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "resource": {
+                        "schema": "FileResource",
+                        "description": "resource",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 2000
+                    },
+                    "size": {
+                        "schema": "FileResource",
+                        "description": "size",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "mime_type": {
+                        "schema": "FileResource",
+                        "description": "mime_type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "original_name": {
+                        "schema": "FileResource",
+                        "description": "original_name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "name": {
+                        "schema": "FileResource",
+                        "description": "name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "description": {
+                        "schema": "FileResource",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "hash_alg": {
+                        "schema": "FileResource",
+                        "description": "hash_alg",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "hash_file": {
+                        "schema": "FileResource",
+                        "description": "hash_file",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "created_at": {
+                        "schema": "FileResource",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "FileResource",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "FileResource",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "FileResource",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentAccountResource": {
+                "description": "Resource PaymentAccount",
+                "required": [
+                    "id",
+                    "user_id",
+                    "type",
+                    "code"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "PaymentAccountResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "user_id": {
+                        "schema": "PaymentAccountResource",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "type": {
+                        "schema": "PaymentAccountResource",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "code": {
+                        "schema": "PaymentAccountResource",
+                        "description": "code",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 50
+                    },
+                    "check": {
+                        "schema": "PaymentAccountResource",
+                        "description": "check",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 10
+                    },
+                    "accountholder": {
+                        "schema": "PaymentAccountResource",
+                        "description": "accountholder",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "data": {
+                        "schema": "PaymentAccountResource",
+                        "description": "data",
+                        "type": "json",
+                        "format": "json"
+                    },
+                    "created_at": {
+                        "schema": "PaymentAccountResource",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "PaymentAccountResource",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "PaymentAccountResource",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "description": {
+                        "schema": "PaymentAccountResource",
+                        "description": "description",
+                        "type": "string"
+                    },
+                    "user": {
+                        "schema": "PaymentAccountResource",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProducerResource": {
+                "description": "Resource Producer",
+                "required": [
+                    "id",
+                    "user_id",
+                    "image_id",
+                    "name",
+                    "description",
+                    "website"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "ProducerResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "user_id": {
+                        "schema": "ProducerResource",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "image_id": {
+                        "schema": "ProducerResource",
+                        "description": "image_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "name": {
+                        "schema": "ProducerResource",
+                        "description": "name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "description": {
+                        "schema": "ProducerResource",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "website": {
+                        "schema": "ProducerResource",
+                        "description": "website",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "created_at": {
+                        "schema": "ProducerResource",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "ProducerResource",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "ProducerResource",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "ProducerResource",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    },
+                    "image": {
+                        "schema": "ProducerResource",
+                        "description": "File",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/File"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "TagResource": {
+                "description": "Resource Tag",
+                "required": [
+                    "id",
+                    "code"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "TagResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "code": {
+                        "schema": "TagResource",
+                        "description": "code",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 200
+                    },
+                    "created_at": {
+                        "schema": "TagResource",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "TagResource",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "TagResource",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "description": "Resource User",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "UserResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "name": {
+                        "schema": "UserResource",
+                        "description": "name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "schema": "UserResource",
+                        "description": "email",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255
+                    },
+                    "created_at": {
+                        "schema": "UserResource",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "UserResource",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "VideoResource": {
+                "description": "Resource Video",
+                "required": [
+                    "id",
+                    "title",
+                    "url"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "VideoResource",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "title": {
+                        "schema": "VideoResource",
+                        "description": "title",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255
+                    },
+                    "url": {
+                        "schema": "VideoResource",
+                        "description": "url",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255
+                    },
+                    "file": {
+                        "schema": "VideoResource",
+                        "description": "File",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/File"
+                        }
+                    },
+                    "thumbnail": {
+                        "schema": "VideoResource",
+                        "description": "File",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/File"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Accounting": {
+                "description": "Entity Accounting",
+                "required": [
+                    "id",
+                    "user_id",
+                    "payment_account_id",
+                    "transaction_type",
+                    "date",
+                    "amount",
+                    "payment_account_type",
+                    "payment_account_code",
+                    "payment_account_accountholder"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Accounting",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "user_id": {
+                        "schema": "Accounting",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "payment_account_id": {
+                        "schema": "Accounting",
+                        "description": "payment_account_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "transaction_type": {
+                        "schema": "Accounting",
+                        "description": "transaction_type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "date": {
+                        "schema": "Accounting",
+                        "description": "date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "amount": {
+                        "schema": "Accounting",
+                        "description": "amount",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "payment_account_type": {
+                        "schema": "Accounting",
+                        "description": "payment_account_type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "payment_account_code": {
+                        "schema": "Accounting",
+                        "description": "payment_account_code",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 50
+                    },
+                    "payment_account_accountholder": {
+                        "schema": "Accounting",
+                        "description": "payment_account_accountholder",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "created_at": {
+                        "schema": "Accounting",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Accounting",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "Accounting",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    },
+                    "paymentAccount": {
+                        "schema": "Accounting",
+                        "description": "PaymentAccount",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentAccount"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Advertiser": {
+                "description": "Entity Advertiser",
+                "required": [
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Advertiser",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "type": {
+                        "schema": "Advertiser",
+                        "description": "gender",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "schema": "Advertiser",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Advertiser",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "Advertiser",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "Advertiser",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Area": {
+                "description": "Entity Area",
+                "required": [
+                    "id",
+                    "type",
+                    "address",
+                    "latitude",
+                    "longitude",
+                    "radius",
+                    "description",
+                    "data"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Area",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "type": {
+                        "schema": "Area",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "address": {
+                        "schema": "Area",
+                        "description": "address",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "latitude": {
+                        "schema": "Area",
+                        "description": "latitude",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "longitude": {
+                        "schema": "Area",
+                        "description": "longitude",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "radius": {
+                        "schema": "Area",
+                        "description": "radius",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "description": {
+                        "schema": "Area",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "data": {
+                        "schema": "Area",
+                        "description": "data",
+                        "type": "json",
+                        "format": "json"
+                    },
+                    "created_at": {
+                        "schema": "Area",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Area",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "Area",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Campaign": {
+                "description": "Entity Campaign",
+                "required": [
+                    "producer_id",
+                    "title",
+                    "gender",
+                    "budget",
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Campaign",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "area_id": {
+                        "schema": "Campaign",
+                        "description": "area_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "producer_id": {
+                        "schema": "Campaign",
+                        "description": "producer_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "video_id": {
+                        "schema": "Campaign",
+                        "description": "video_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "accounting_id": {
+                        "schema": "Campaign",
+                        "description": "accounting_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "title": {
+                        "schema": "Campaign",
+                        "description": "title",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "description": {
+                        "schema": "Campaign",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "geolocation": {
+                        "schema": "Campaign",
+                        "description": "geolocation",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "min_age": {
+                        "schema": "Campaign",
+                        "description": "min_age",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "max_age": {
+                        "schema": "Campaign",
+                        "description": "max_age",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "gender": {
+                        "schema": "Campaign",
+                        "description": "gender",
+                        "type": "integer",
+                        "format": "smallint"
+                    },
+                    "budget": {
+                        "schema": "Campaign",
+                        "description": "budget",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "reward": {
+                        "schema": "Campaign",
+                        "description": "reward",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "type": {
+                        "schema": "Campaign",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "people": {
+                        "schema": "Campaign",
+                        "description": "people",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "start_date": {
+                        "schema": "Campaign",
+                        "description": "start_date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "end_date": {
+                        "schema": "Campaign",
+                        "description": "end_date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "schema": "Campaign",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Campaign",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "Campaign",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "area": {
+                        "schema": "Campaign",
+                        "description": "Area",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/Area"
+                        }
+                    },
+                    "producer": {
+                        "schema": "Campaign",
+                        "description": "Producer",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/Producer"
+                        }
+                    },
+                    "video": {
+                        "schema": "Campaign",
+                        "description": "Video",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/Video"
+                        }
+                    },
+                    "accounting": {
+                        "schema": "Campaign",
+                        "description": "Accounting",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/Accounting"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Consumer": {
+                "description": "Entity Consumer",
+                "required": [
+                    "id",
+                    "user_id",
+                    "name",
+                    "surname",
+                    "birth_year",
+                    "gender"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Consumer",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "user_id": {
+                        "schema": "Consumer",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "name": {
+                        "schema": "Consumer",
+                        "description": "name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "surname": {
+                        "schema": "Consumer",
+                        "description": "surname",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "birth_year": {
+                        "schema": "Consumer",
+                        "description": "birth_year",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "gender": {
+                        "schema": "Consumer",
+                        "description": "gender",
+                        "type": "integer",
+                        "format": "smallint"
+                    },
+                    "created_at": {
+                        "schema": "Consumer",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Consumer",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "Consumer",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "Consumer",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "File": {
+                "description": "Entity File",
+                "required": [
+                    "id",
+                    "uuid",
+                    "user_id",
+                    "type",
+                    "path",
+                    "size",
+                    "mime_type",
+                    "original_name",
+                    "name",
+                    "description",
+                    "hash_alg",
+                    "hash_file"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "File",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "uuid": {
+                        "schema": "File",
+                        "description": "uuid",
+                        "type": "string"
+                    },
+                    "url": {
+                        "schema": "File",
+                        "description": "url",
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "schema": "File",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "type": {
+                        "schema": "File",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "path": {
+                        "schema": "File",
+                        "description": "path",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 2000
+                    },
+                    "fullPath": {
+                        "schema": "File",
+                        "description": "fullPath",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "size": {
+                        "schema": "File",
+                        "description": "size",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "mime_type": {
+                        "schema": "File",
+                        "description": "mime_type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "original_name": {
+                        "schema": "File",
+                        "description": "original_name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "name": {
+                        "schema": "File",
+                        "description": "name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "description": {
+                        "schema": "File",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "hash_alg": {
+                        "schema": "File",
+                        "description": "hash_alg",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "hash_file": {
+                        "schema": "File",
+                        "description": "hash_file",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "created_at": {
+                        "schema": "File",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "File",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "File",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "File",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Interaction": {
+                "description": "Entity Interaction",
+                "required": [
+                    "id",
+                    "accounting_id",
+                    "consumer_id",
+                    "campaign_id",
+                    "type",
+                    "data"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Interaction",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "accounting_id": {
+                        "schema": "Interaction",
+                        "description": "accounting_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "consumer_id": {
+                        "schema": "Interaction",
+                        "description": "consumer_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "campaign_id": {
+                        "schema": "Interaction",
+                        "description": "campaign_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "type": {
+                        "schema": "Interaction",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "data": {
+                        "schema": "Interaction",
+                        "description": "data",
+                        "type": "json",
+                        "format": "json"
+                    },
+                    "started_at": {
+                        "schema": "Interaction",
+                        "description": "started_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "finished_at": {
+                        "schema": "Interaction",
+                        "description": "finished_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "schema": "Interaction",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Interaction",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "accounting": {
+                        "schema": "Interaction",
+                        "description": "Accounting",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/Accounting"
+                        }
+                    },
+                    "consumer": {
+                        "schema": "Interaction",
+                        "description": "Consumer",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/Consumer"
+                        }
+                    },
+                    "campaign": {
+                        "schema": "Interaction",
+                        "description": "Campaign",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/Campaign"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentAccount": {
+                "description": "Entity PaymentAccount",
+                "required": [
+                    "id",
+                    "user_id",
+                    "type",
+                    "code"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "PaymentAccount",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "user_id": {
+                        "schema": "PaymentAccount",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "type": {
+                        "schema": "PaymentAccount",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "code": {
+                        "schema": "PaymentAccount",
+                        "description": "code",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 50
+                    },
+                    "check": {
+                        "schema": "PaymentAccount",
+                        "description": "check",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 10
+                    },
+                    "accountholder": {
+                        "schema": "PaymentAccount",
+                        "description": "accountholder",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "data": {
+                        "schema": "PaymentAccount",
+                        "description": "data",
+                        "type": "json",
+                        "format": "json"
+                    },
+                    "created_at": {
+                        "schema": "PaymentAccount",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "PaymentAccount",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "PaymentAccount",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "description": {
+                        "schema": "PaymentAccount",
+                        "description": "description",
+                        "type": "string"
+                    },
+                    "user": {
+                        "schema": "PaymentAccount",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Producer": {
+                "description": "Entity Producer",
+                "required": [
+                    "id",
+                    "user_id",
+                    "image_id",
+                    "name",
+                    "description"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Producer",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "user_id": {
+                        "schema": "Producer",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "image_id": {
+                        "schema": "Producer",
+                        "description": "image_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "name": {
+                        "schema": "Producer",
+                        "description": "name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "description": {
+                        "schema": "Producer",
+                        "description": "description",
+                        "type": "string",
+                        "format": "text"
+                    },
+                    "website": {
+                        "schema": "Producer",
+                        "description": "website",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "created_at": {
+                        "schema": "Producer",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Producer",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "Producer",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "Producer",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    },
+                    "image": {
+                        "schema": "Producer",
+                        "description": "File",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/File"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Tag": {
+                "description": "Entity Tag",
+                "required": [
+                    "id",
+                    "code"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Tag",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "code": {
+                        "schema": "Tag",
+                        "description": "code",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 200
+                    },
+                    "description": {
+                        "schema": "Tag",
+                        "description": "description",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 200
+                    },
+                    "created_at": {
+                        "schema": "Tag",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Tag",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "Tag",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "description": "Entity User",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "User",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "name": {
+                        "schema": "User",
+                        "description": "name",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "schema": "User",
+                        "description": "email",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255
+                    },
+                    "email_verified_at": {
+                        "schema": "User",
+                        "description": "email_verified_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "password": {
+                        "schema": "User",
+                        "description": "password",
+                        "type": "string",
+                        "format": "password",
+                        "maxLength": 255
+                    },
+                    "remember_token": {
+                        "schema": "User",
+                        "description": "remember_token",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 100
+                    },
+                    "payment_account_id": {
+                        "schema": "User",
+                        "description": "payment_account_id",
+                        "type": "integer"
+                    },
+                    "someone_id": {
+                        "schema": "User",
+                        "description": "someone_id",
+                        "type": "integer"
+                    },
+                    "someone_type": {
+                        "schema": "User",
+                        "description": "someone_type",
+                        "type": "string"
+                    },
+                    "last_login_at": {
+                        "schema": "User",
+                        "description": "last_login_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "last_login_ip": {
+                        "schema": "User",
+                        "description": "last_login_ip",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "created_at": {
+                        "schema": "User",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "User",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "UserSocial": {
+                "description": "Entity UserSocial",
+                "required": [
+                    "id",
+                    "user_id",
+                    "type",
+                    "social_id",
+                    "data"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "UserSocial",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "user_id": {
+                        "schema": "UserSocial",
+                        "description": "user_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "type": {
+                        "schema": "UserSocial",
+                        "description": "type",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 30
+                    },
+                    "social_id": {
+                        "schema": "UserSocial",
+                        "description": "social_id",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 300
+                    },
+                    "data": {
+                        "schema": "UserSocial",
+                        "description": "data",
+                        "type": "json",
+                        "format": "json"
+                    },
+                    "created_at": {
+                        "schema": "UserSocial",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "UserSocial",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "UserSocial",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "user": {
+                        "schema": "UserSocial",
+                        "description": "User",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Video": {
+                "description": "Entity Video",
+                "required": [
+                    "id",
+                    "file_id",
+                    "thumbnail_id",
+                    "title",
+                    "url",
+                    "duration",
+                    "data"
+                ],
+                "properties": {
+                    "id": {
+                        "schema": "Video",
+                        "description": "id",
+                        "type": "integer",
+                        "format": "bigint"
+                    },
+                    "file_id": {
+                        "schema": "Video",
+                        "description": "file_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "thumbnail_id": {
+                        "schema": "Video",
+                        "description": "thumbnail_id",
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    "title": {
+                        "schema": "Video",
+                        "description": "title",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255
+                    },
+                    "url": {
+                        "schema": "Video",
+                        "description": "url",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255
+                    },
+                    "duration": {
+                        "schema": "Video",
+                        "description": "duration",
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "data": {
+                        "schema": "Video",
+                        "description": "data",
+                        "type": "json",
+                        "format": "json"
+                    },
+                    "created_at": {
+                        "schema": "Video",
+                        "description": "created_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "schema": "Video",
+                        "description": "updated_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "schema": "Video",
+                        "description": "deleted_at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file": {
+                        "schema": "Video",
+                        "description": "File",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/File"
+                        }
+                    },
+                    "thumbnail": {
+                        "schema": "Video",
+                        "description": "File",
+                        "type": "object",
+                        "items": {
+                            "$ref": "#/components/schemas/File"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "passport": {
+                "type": "oauth2",
+                "description": "Laravel passport oauth2 security.",
+                "in": "header",
+                "scheme": "https",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "https://roundapp.local/oauth/authorize",
+                        "tokenUrl": "https://roundapp.local/oauth/token",
+                        "refreshUrl": "https://roundapp.local/token/refresh",
+                        "scopes": [],
+                        "client_id": "1",
+                        "secret": "yo4kJNkiGGIiU0YqZ5jP1ucCArLM11FC7z5QdEFY"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "API Endpoints for reset password"
+        },
+        {
+            "name": "Auth",
+            "description": "API Endpoints for authentication"
+        },
+        {
+            "name": "Auth",
+            "description": "API Endpoints for authentication"
+        },
+        {
+            "name": "Auth",
+            "description": "API Endpoints for reset password"
+        },
+        {
+            "name": "Auth",
+            "description": "API Endpoints for authentication"
+        },
+        {
+            "name": "Campaigns",
+            "description": "API Endpoints of Campaigns"
+        },
+        {
+            "name": "Consumers",
+            "description": "API Endpoints of Consumers"
+        },
+        {
+            "name": "Producers",
+            "description": "API Endpoints of Producers"
+        },
+        {
+            "name": "Videos",
+            "description": "API Endpoints of Videos"
+        }
+    ]
+}

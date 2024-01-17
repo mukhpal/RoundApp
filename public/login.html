@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+</head>
+<body>
+<div class="text-center">
+    <div style="display:inline-block; width:600px; margin:0 auto; margin-top:150px;">
+        <form onsubmit="return send(event)">
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group row text-right">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button type="button" class="btn btn-warning btn-users" onclick="getusers()">Show users</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    token = false;
+    send = (e) => {
+        e.preventDefault();
+
+        const config = {
+            headers: {
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }
+
+        const clientId = 1;
+        const username = $("#email").val();
+        const password = $("#password").val();
+
+        const data = {
+            //grant_type: 'password',
+            //client_id: 2,
+            emaill: username,
+            password: password,
+            //scope: '*'
+        };
+        //const data = `grant_type=password&client_id=${clientId}&client_secret=${clientSecret}&username=${username}&password=${password}&scope=*`;
+        console.log(data);
+        $(".btn-users").removeClass("btn-success btn-danger").addClass("btn-warning");
+        console.log(config);
+        axios.post('/api/auth/login', data, config)
+            .then((response) => {
+                //console.log(response.data);
+                token = response.data.access_token;
+                console.log(token);
+                $(".btn-users").removeClass("btn-warning btn-danger").addClass("btn-success");
+            }, (error) => {
+                $(".btn-users").removeClass("btn-warning btn-success").addClass("btn-danger");
+                token = "";
+            });
+        return false;
+    };
+
+    getusers = () => {
+        if(token == "") {
+            alert("Please LOGINNNNNNNNNN!!!!");
+        }
+        else {
+            const config = {
+                headers: {
+                    //'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            };
+            console.log(config);
+            axios.get('/api/consumers', config)
+                .then((response) => {
+                    console.log(response.data);
+                }, (error) => alert("INVALID TOKEN!"));
+        }
+    }
+</script>
+
+
+</body>
+</html>

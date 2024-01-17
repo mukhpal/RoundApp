@@ -1,0 +1,30 @@
+{
+    "name": "frasim/mangopay",
+    "description": "Laravel integration for Mangopay API",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2.5",
+        "illuminate/support": "^7.15",
+        "mangopay/php-sdk-v2": "^3.0"
+    },
+    "authors": [
+        {
+            "name": "Francesco",
+            "email": "francesco.simeoli@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "FraSim\\MangoPay\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\FraSim\\MangoPay\\MangoPayServiceProvider"
+            ]
+        }
+    }
+}
